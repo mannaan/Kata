@@ -19,7 +19,10 @@ namespace Kata.Tests
         {
             var builder = new ContainerBuilder();
             builder.RegisterType<Scanner>().As<IScanner>();
-            builder.RegisterType<QuantityDiscountProcessor>().As<IDiscountProcessor>();
+            builder.RegisterType<DiscountManager>().As<IDiscountManager>();
+            builder.RegisterType<QuantityDiscountProcessor>().As<IDiscountProcessor>()
+                .WithMetadata("Name", DiscountTypes.Quantity.ToString());
+
 
             var discountMoq = new Mock<IDiscountRuleRepository>();
 

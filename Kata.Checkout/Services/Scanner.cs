@@ -1,14 +1,13 @@
 ﻿using Kata.Checkout.Entities;
-using System;
 
 namespace Kata.Checkout.Services
 {
     public class Scanner : IScanner
     {
-        private readonly IDiscountProcessor _discountProcessor;
-        public Scanner(IDiscountProcessor discountProcessor)
+        private readonly IDiscountManager _discountManager;
+        public Scanner(IDiscountManager discountManager)
         {
-            _discountProcessor = discountProcessor;
+            _discountManager = discountManager;
         }
         public Basket Scan(Basket basket, Item item, int quantity)
         {
@@ -21,7 +20,7 @@ namespace Kata.Checkout.Services
                 Sku = item.Sku,
                 Name = item.Name
             });
-            basket = _discountProcessor.Apply(basket);
+            basket = _discountManager.ApplyDiscounts(basket);
             return basket;
         }
     }
