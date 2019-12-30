@@ -11,6 +11,9 @@ namespace Kata.Checkout.Entities
         {
             LineItems = new List<LineItem>();
         }
-        
+        public decimal Total()
+        {
+            return LineItems.Sum(scannedItem => scannedItem.Total);
+        }
     }
 }
