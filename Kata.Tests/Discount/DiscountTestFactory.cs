@@ -149,6 +149,29 @@ namespace Kata.Tests.Discount
                     },
 
                 }).Returns(3);
+                yield return new TestCaseData(new List<dynamic>() {
+                    new
+                    {
+                        Sku="B15",
+                        Name="B15",
+                        UnitPrice=0.3m,
+                        Quantity = 3
+                    },
+                    new
+                    {
+                        Sku="A99",
+                        Name="A99",
+                        UnitPrice=0.5m,
+                        Quantity = 4
+                    },
+                    new
+                    {
+                        Sku="B15",
+                        UnitPrice=0.3m,
+                        Quantity = -2
+                    },
+
+                }).Returns(2.1);
             }
         }
 

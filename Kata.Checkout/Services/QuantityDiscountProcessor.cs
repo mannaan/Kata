@@ -28,23 +28,31 @@ namespace Kata.Checkout.Services
                 var totalItem = basket.LineItems.Where(i => i.Sku.Equals(rule.ProductSku)).Sum(i => i.Quanity);
                 var appliedDiscounts = basket.LineItems.Count(i => i.Sku.Equals(rule.OfferSku));
                 var expectedDiscounts = (int)totalItem / rule.Quantity;
-                if (expectedDiscounts <= appliedDiscounts) continue;
-                AddDiscountLineItems(basket, appliedDiscounts, expectedDiscounts, rule);
+                if (expectedDiscounts == appliedDiscounts) continue;
+                if (expectedDiscounts < appliedDiscounts)
+                {
+                    AddDiscountLineItems(basket, appliedDiscounts - expectedDiscounts, rule,true);
+                }
+                else
+                {
+                    AddDiscountLineItems(basket, expectedDiscounts - appliedDiscounts, rule);
+                }
+
+
             }
 
             return basket;
         }
 
-        private static void AddDiscountLineItems(Basket basket, int appliedDiscounts, int expectedDiscounts,
-            QuantityDiscountRule rule)
+        private void AddDiscountLineItems(Basket basket, int itemsToBeAdded, QuantityDiscountRule rule,bool reverse = false)
         {
-            for (var i = appliedDiscounts; i < expectedDiscounts; i++)
+            for (var i = 0; i < itemsToBeAdded; i++)
             {
                 basket.LineItems.Add(new LineItem()
                 {
                     Quanity = 1,
                     Sku = rule.OfferSku,
-                    UnitPrice = -1 * rule.DiscountAmount
+                    UnitPrice = reverse? rule.DiscountAmount : -1 * rule.DiscountAmount
                 });
             }
         }
