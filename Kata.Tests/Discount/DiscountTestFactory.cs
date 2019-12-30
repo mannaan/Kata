@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Kata.Checkout.Entities;
+using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -6,7 +7,7 @@ namespace Kata.Tests.Discount
 {
     public class DiscountTestCaseFactory
     {
-        public static IEnumerable LineItemTestCases
+        public static IEnumerable ScanTestCases
         {
             get
             {
@@ -148,6 +149,39 @@ namespace Kata.Tests.Discount
                     },
 
                 }).Returns(3);
+            }
+        }
+
+        public static IEnumerable BasketItemsTestCases
+        {
+            get
+            {
+                yield return new TestCaseData(new Basket()
+                {
+                    LineItems = new List<LineItem>()
+                    {
+                       new LineItem{Name="B15",Quanity=1,Sku="B15",UnitPrice=0.3m},
+                       new LineItem{Name="B15",Quanity=1,Sku="B15",UnitPrice=0.3m},
+                    }
+                }).Returns(3);
+                yield return new TestCaseData(new Basket()
+                {
+                    LineItems = new List<LineItem>()
+                    {
+                       new LineItem{Name="B15",Quanity=5,Sku="B15",UnitPrice=0.3m},
+                       new LineItem{Name="B15",Quanity=2,Sku="B15",UnitPrice=0.3m},
+                    }
+                }).Returns(5);
+                yield return new TestCaseData(new Basket()
+                {
+                    LineItems = new List<LineItem>()
+                    {
+                       new LineItem{Name="B15",Quanity=5,Sku="B15",UnitPrice=0.3m},
+                       new LineItem{Name="A99",Quanity=2,Sku="A99",UnitPrice=0.3m},
+                       new LineItem{Name="B15",Quanity=2,Sku="B15",UnitPrice=0.3m},
+
+                    }
+                }).Returns(6);
             }
         }
     }

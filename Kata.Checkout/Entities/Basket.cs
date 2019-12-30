@@ -5,7 +5,7 @@ namespace Kata.Checkout.Entities
 {
     public class Basket
     {
-        public IList<LineItem> LineItems { get; }
+        public IList<LineItem> LineItems { get; set; }
 
         public Basket()
         {

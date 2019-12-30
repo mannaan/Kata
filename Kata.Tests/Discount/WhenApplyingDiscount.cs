@@ -9,6 +9,7 @@ namespace Kata.Tests.Discount
     public class WhenApplyingDiscount
     {
         private IScanner _scanner;
+        private IDiscountProcessor _discountProcessor;
         private Basket _basket;
         [SetUp]
         public void Setup()
@@ -16,9 +17,16 @@ namespace Kata.Tests.Discount
             var registry = new Ioc();
             _basket = new Basket();
             _scanner = registry.Container.Resolve<IScanner>();
+            _discountProcessor = registry.Container.Resolve<IDiscountProcessor>();
         }
-        [Test, TestCaseSource(typeof(DiscountTestCaseFactory), "LineItemTestCases")]
-        public decimal ShouldAddOneLinePerDiscount(IList<dynamic> items)
+        [Test, TestCaseSource(typeof(DiscountTestCaseFactory), "BasketItemsTestCases")]
+        public decimal ShouldAddOneLinePerDiscount(Basket basket)
+        {
+            _basket = _discountProcessor.Apply(basket);
+            return _basket.LineItems.Count;
+        }
+        [Test, TestCaseSource(typeof(DiscountTestCaseFactory), "ScanTestCases")]
+        public decimal ShouldCheckForDiscountOnEachScan(IList<dynamic> items)
         {
             foreach (var item in items)
             {

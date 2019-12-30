@@ -45,7 +45,5 @@ namespace Kata.Tests.AddToBasket
             }
             return _basket.Total();
         }
-
-
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Kata.Checkout.Entities;
-using System.Collections.Generic;
 using System.Text;
 
 namespace Kata.Checkout.Services
